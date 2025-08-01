@@ -1,0 +1,43 @@
+/* Movie-project/Movie/src/Component/Header/Header.css */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #141414;
+  padding: 0 40px;
+  height: 60px;
+}
+
+.header__logo {
+  color: #e50914;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.header__nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header__nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.header__nav a:hover {
+  color: #e50914;
+}
+
+.header__icons {
+  display: flex;
+  gap: 18px;
+}
+
+.icon {
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}

@@ -1,0 +1,3 @@
+Application Name = movie
+Application URL = https://movie.com
+API KEY = 492818895e301c2a5657830dad34a818
