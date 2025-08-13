@@ -35,3 +35,13 @@
   transform: scale(1.09);
   opacity: 1;
 }
+
+.youtube-container {
+  padding: 40px;
+}
+
+.youtube-container iframe {
+  height: 390px;
+  width: 100%;
+  border: none;
+}

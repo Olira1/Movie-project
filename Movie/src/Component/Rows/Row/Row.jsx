@@ -5,66 +5,81 @@ import movieTrailer from "movie-trailer";
 import YouTube from "react-youtube";
 
 const Row = ({ title, fetchUrl, isLargeRow }) => {
-  const [movie, setMovie] = useState([]);
-  const [traileUrl, setTraileUrl] = useState("")
+  const [movies, setMovies] = useState([]);
+  const [trailerUrl, setTrailerUrl] = useState("");
 
   const base_url = "https://image.tmdb.org/t/p/original";
 
   useEffect(() => {
-    (async () => {
+    const fetchData = async () => {
       try {
-        console.log(fetchUrl);
         const request = await axios.get(fetchUrl);
-        console.log(request);
-        setMovie(request.data.results);
+        setMovies(request.data.results);
       } catch (error) {
-        console.log("error", error);
+        console.error("Error fetching movies:", error);
       }
-    })();
+    };
+
+    fetchData();
   }, [fetchUrl]);
 
-  const handleClick = (movie) => {
-      if(traileUrl){
-          setTraileUrl("")
-      }else{
-          movieTrailer(movie?.title||movie?.name||movie?.original_name)
-          .then((url) => {
-              console.log(url)
-              const urlparams = new URLSearchParams(new URL(url).search)
-              console.log(urlparams)
-              console.log(urlparams.get('v'))
-              setTraileUrl(urlparams.get('v'))
-          })
+  const handleClick = async (movie) => {
+    if (trailerUrl) {
+      setTrailerUrl("");
+    } else {
+      try {
+        const url = await movieTrailer(
+          movie?.title || movie?.name || movie?.original_name || ""
+        );
+        if (url) {
+          const urlParams = new URLSearchParams(new URL(url).search);
+          setTrailerUrl(urlParams.get("v"));
+        }
+      } catch (error) {
+        console.error("Error fetching trailer:", error);
       }
-  }
+    }
+  };
 
   const opts = {
     height: "390",
     width: "100%",
     playerVars: {
       autoplay: 1,
+      modestbranding: 1,
+      controls: 1,
+      rel: 0,
+      showinfo: 0,
+      fs: 1,
+      enablejsapi: 1,
     },
   };
 
   return (
     <div className="row">
-      <h1>{title}</h1>
+      <h2>{title}</h2>
       <div className="row_posters">
-        {movie?.map((movie, index) => (
+        {movies.map((movie) => (
           <img
             onClick={() => handleClick(movie)}
-            key={index}
+            key={movie.id}
             src={`${base_url}${
               isLargeRow ? movie.poster_path : movie.backdrop_path
             }`}
-            alt={movie.name}
+            alt={movie.name || movie.title}
             className={`row_poster ${isLargeRow && "row_posterLarge"}`}
           />
         ))}
-        <div style={{padding: '40px'}}>
-                    {traileUrl && <YouTube videoId={traileUrl} opts={opts} />}
-                </div>
       </div>
+      {trailerUrl && (
+        <div className="youtube-container">
+          <YouTube
+            videoId={trailerUrl}
+            opts={opts}
+            onReady={(event) => event.target.playVideo()}
+          />
+        </div>
+      )}
     </div>
   );
 };
