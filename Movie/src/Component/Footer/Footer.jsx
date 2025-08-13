@@ -15,9 +15,7 @@ function Footer() {
           <a href="#">Investor Relations</a>
           <a href="#">Legal Notice</a>
           <button className="footer__service-code">Service Code</button>
-          <div className="footer__copyright">
-            © 1997-2024 Netflix, Inc.
-          </div>
+          <div className="footer__copyright">© 1997-2024 Netflix, Inc.</div>
         </div>
         <div>
           <a href="#">Help Center</a>
@@ -35,6 +33,7 @@ function Footer() {
           <a href="#">Contact Us</a>
         </div>
       </div>
+      <h1>PREPARED BY OLIRA</h1>
     </footer>
   );
 }
